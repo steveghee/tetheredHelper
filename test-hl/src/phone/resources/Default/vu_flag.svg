@@ -1,0 +1,12 @@
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="256px" height="256px" viewBox="0 0 256 256" enable-background="new 0 0 256 256" xml:space="preserve">
+<g id="base" opacity="0.9">
+	<path class="base" id="Color_Fill_16_copy_13" fill="#236192" d="M128,0c70.6,0,128,57.2,128,128s-57.4,128-128,128S0,198.8,0,128S57.4,0,128,0z
+		"/>
+</g>
+<g id="Color_Fill_188_1_">
+	<path class="main" id="Color_Fill_188" fill="#FFFFFF" d="M94.8,17.8c1.8,0,3.2,1.4,3.2,3.2c0,7,0,95,0,95h-6.2V21l0,0
+		C91.8,19.2,93.2,17.8,94.8,17.8z M164,17.6v50.2c0,0-8,10.4-17.4,10.4C135.2,78.2,130.4,68,119,68c-9.4,0-17,7.2-17,7.2v-50
+		c0,0,7.6-7.4,17-7.4c9.6,0,17.8,10.2,27.6,10.2C156,28,164,17.6,164,17.6z"/>
+</g>
+</svg>

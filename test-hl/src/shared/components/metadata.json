@@ -1,0 +1,36 @@
+{
+  "name": "",
+  "version": "1.0.0",
+  "requires": [
+    "holographic",
+    "spatial-tracking"
+  ],
+  "experiences": [
+    {
+      "vumark": "11075:1",
+      "experienceType": "vumark",
+      "id": 1,
+      "index-keys": [
+        "urn:vuforia:vumark:11075:1"
+      ],
+      "title": {
+        "en": "tether test"
+      },
+      "description": {
+        "en": "",
+        "en-US": ""
+      },
+      "requires": [
+        "AR-tracking"
+      ],
+      "tags": [],
+      "icon": "",
+      "viewName": "Home",
+      "url-template": "index.html?expId=1&vumark={{vuforia:vumark}}",
+      "entryPoint": "index.html?expId=1",
+      "thumbnail": ""
+    }
+  ],
+  "accessType": "public",
+  "designedfor": []
+}

@@ -1,0 +1,142 @@
+{
+  "attributes": {
+    "twx-widget": "",
+    "widget-id": "view-1",
+    "widget-name": "view-1",
+    "is-widget-container": "true",
+    "viewtype": "ar"
+  },
+  "children": [
+    {
+      "name": "twx-container-content",
+      "children": [
+        {
+          "attributes": {
+            "twx-widget": "",
+            "widget-id": "3DContainer-1",
+            "widget-name": "3D Container",
+            "is-widget-container": "true",
+            "enabletrackingevents": "true",
+            "dropshadow": "true"
+          },
+          "name": "twx-dt-view",
+          "children": [
+            {
+              "name": "twx-container-content",
+              "children": [
+                {
+                  "attributes": {
+                    "twx-widget": "",
+                    "widget-id": "spatialTarget-1",
+                    "widget-name": "spatialTarget-1",
+                    "rx": "-90"
+                  },
+                  "name": "twx-dt-target-spatial"
+                },
+                {
+                  "attributes": {
+                    "twx-widget": "",
+                    "widget-id": "model-1",
+                    "widget-name": "model-1",
+                    "is-widget-container": "true",
+                    "src": "Uploaded/holoUI_methodplate2.pvz",
+                    "scale": "1"
+                  },
+                  "name": "twx-dt-model",
+                  "children": [
+                    {
+                      "name": "twx-container-content",
+                      "children": [
+                        {
+                          "attributes": {
+                            "twx-widget": "",
+                            "widget-id": "modelItem-1",
+                            "widget-name": "modelItem-1",
+                            "is-widget-container": "true",
+                            "model": "model-1",
+                            "idpath": "/",
+                            "scale": "1",
+                            "x": "0.0000",
+                            "y": "0.0000",
+                            "z": "0.0000",
+                            "rx": "0.00",
+                            "ry": "0.00",
+                            "rz": "0.00"
+                          },
+                          "name": "twx-dt-modelitem",
+                          "children": [
+                            {
+                              "name": "twx-container-content"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "attributes": {
+                    "twx-widget": "",
+                    "widget-id": "tmlText-1",
+                    "widget-name": "tmlText-1",
+                    "text": "<script name=\"aspectTextured\" type=\"x-shader/x-fragment\">\n\nTexture2D Texture : register(t0);\nsampler Sampler   : register(s0);\n\ncbuffer ShaderConstantBuffer : register(b0)\n{\n    float4      highlightColor;\n    //----------------------------------- (16 byte boundary)\n    bool        useTexture;\n    bool        useLight;\n    float       transparency;\n    int         pad;\n};\n\ncbuffer RenderConstantBuffer : register(b1)\n{\n    //----------------------------------- (16 byte boundary)\n    float       tick;\n    float3      ding;\n};\n\ncbuffer TMLDefinedConstants : register(b10)\n{\n    float       cutoffDepth;\n    float       aspectX;\n    float       aspectY;\n};\n\n// Per-pixel color data passed through the pixel shader.\nstruct PixelShaderInput\n{\n    half4       pos     : SV_POSITION;\n    half4       color   : COLOR0;\n    half4       world   : POSITION;\n    half2       xray    : TEXCOORD0;\n    half2       tx      : TEXCOORD1;\n};\n\n// The pixel shader passes through the color data. The color data from\n// is interpolated and assigned to a pixel at the rasterization step.\nmin16float4 main(PixelShaderInput input) : SV_TARGET\n{\n    half2 xf = half2(0.5,0.5);\n    half2 ar = half2(aspectX,aspectY);\n    half2 uv = xf + ((input.tx - xf) * ar);\n    float4 color = Texture.Sample(Sampler, uv);\n\n    float  gz = 1. - clamp((input.pos.z/input.pos.w) - cutoffDepth, 0., 1.); \n    min16float4 finalShadedColor  = min16float4(color.rgb * gz, gz);\n    return finalShadedColor;\n}\n\n</script>\n<script name=\"aspectTextured\" type=\"x-shader/x-vertex\">\n\n// A constant buffer that stores the model transform.\ncbuffer ModelConstantBuffer : register(b0)\n{\n    float4x4 model;\n    float4x4 inverse;\n};\n\ncbuffer MaterialConstantBuffer : register(b1)\n{\n    float4   diffuseColor;\n};\n\n// A constant buffer that stores each set of view and projection matrices in column-major format.\ncbuffer ViewProjectionConstantBuffer : register(b2)\n{\n    float4x4 viewProjection[2];\n    float4x4 viewInverse;\n};\n\n// Per-vertex data used as input to the vertex shader.\nstruct VertexShaderInput\n{\n    half4 pos     : POSITION;\n    half4 normal  : NORMAL;\n    half2 texcoord: TEXCOORD;\n    uint  instId  : SV_InstanceID;\n};\n\n// Per-vertex data passed to the geometry shader.\n// Note that the render target array index will be set by the geometry shader\n// using the value of viewId.\nstruct VertexShaderOutput\n{\n    half4 pos     : SV_POSITION;\n    half4 color   : COLOR0;\n    half4 world   : POSITION;\n    half2 xray    : TEXCOORD0;\n    half2 tx      : TEXCOORD1;\n    uint  rtvId   : SV_RenderTargetArrayIndex; // SV_InstanceID % 2\n};\n\n// Simple shader to do vertex processing on the GPU.\nVertexShaderOutput main(VertexShaderInput input)\n{\n    VertexShaderOutput output;\n    half4 pos = half4(input.pos);\n\n    // Note which view this vertex has been sent to. Used for matrix lookup.\n    // Taking the modulo of the instance ID allows geometry instancing to be used\n    // along with stereo instanced drawing; in that case, two copies of each\n    // instance would be drawn, one for left and one for right.\n    int idx = input.instId % 2;\n\n    // Transform the vertex position into world space.\n    pos = mul(pos, model);\n    output.world = (half4)pos;\n\n    // I = v pos in view space\n    half4 eye = half4(0., 0., 0., 1.);\n    half3 I   = normalize(pos - mul(eye, viewInverse)).xyz;\n\n    // N = normal in view space\n    half3 N   = normalize(mul(input.normal, inverse).xyz);\n\n    // get the dot product, and store in the X component of the output, along with alpha in the Y\n    float dp    = dot(-N, I);\n    output.xray = half2(dp, 0.);\n\n    // Correct for perspective and project the vertex position onto the screen.\n    pos = mul(pos, viewProjection[idx]);\n    output.pos = (half4)pos;\n\n    output.color = (half4)diffuseColor;\n\n    output.tx = input.texcoord;\n\n    // Set the instance ID. The pass-through geometry shader will set the\n    // render target array index to whatever value is set here.\n    output.rtvId = idx;\n\n    return output;\n}\n</script>\n\n\n<script name=\"holoUI\" type=\"x-shader/x-fragment\">\n\nTexture2D Texture : register(t0);\nTexture2D Iridance : register(t1);\nsampler Sampler   : register(s0);\n\ncbuffer ShaderConstantBuffer : register(b0)\n{\n    float4      highlightColor;\n    //----------------------------------- (16 byte boundary)\n    bool        useTexture;\n    bool        useLight;\n    float       transparency;\n    int         pad;\n};\n\ncbuffer RenderConstantBuffer : register(b1)\n{\n    //----------------------------------- (16 byte boundary)\n    float               tick;\n    float3              padding;\n    float4             hand;\n};\n\ncbuffer TMLDefinedConstants : register(b10)\n{\n    float cutoffDepth;\n};\n\n// Per-pixel color data passed through the pixel shader.\nstruct PixelShaderInput\n{\n    half4 pos       : SV_POSITION;\n    half4 world   : POSITION;\n    half4 color :    COLOR0;\n    half3 I            : NORMAL0;\n    half3 N          : TEXCOORD0;\n    half2 tx          : TEXCOORD1;\n    half3 viewDir : TEXCOORD2;\n};\n\nfloat HoverLight(float4 hoverLight, float3 worldPosition, float alpha)\n{\n    float ir = 1. - saturate(length((hoverLight.xyz - worldPosition) / hoverLight.w));\n    return ir * ir * alpha;\n}\n\nfloat2 raytrace(float3 x1, float3 x0, float3 I)\n{\n    float3 x2 = x1 + I;\n    float3 n21 = x2 - x1;\n    float3 n10 = x1 - x0;\n    float n1 = dot(n10, n21);\n    float l21 = length(n21);\n    float t = -n1 / (l21 * l21);\n    float l10 = length(n10);\n    float d = ((l10*l10)*(l21*l21) - (n1*n1)) / (l21*l21);\n    return float2(t, d);\n}\n\n\n// The pixel shader passes through the color data. The color data from\n// is interpolated and assigned to a pixel at the rasterization step.\nmin16float4 main(PixelShaderInput input) : SV_TARGET\n{\n    const float hlw = 0.05;\n    float      bigW = hlw * 5.;\n    float4 HoverLightPosition = float4 (hand.xyz, hlw);\n\n    float bigD       = saturate(length((HoverLightPosition.xyz - input.world.xyz) / bigW));\n    float brightness = 1. - bigD;\n    float falloff    = pow(brightness,3.);\n    float width      = 0.5;\n    float crad       = 0.;\n    float thickness  = 0.005;\n    float outer = width - crad;\n    float inner = outer - thickness;\n    float4 f    = Texture.Sample(Sampler, input.tx);\n    float3 edge;\n    float2 mtx = abs(input.tx) % 1;\n\nif (crad > 0.) {\n    float r1 = step(crad, length(max(abs(mtx - float2(width,width)) - inner, 0.)));\n    float r2 = step(length(max(abs(mtx - float2(width,width)) - outer, 0.)), crad);\n    float sq = r1 * r2;\n    edge     = float3 (sq,sq,sq);\n    f       += float4(edge,sq);\n}\nelse {\n    float2 r = abs(mtx - float2(width,width));\n    float  s = max(r.x,r.y);\n    float sq = step(inner, s) * step(s, outer);\n    edge     = float3 (sq,sq,sq);\n    f       += float4(max(brightness,.1) * edge,sq);\n}\n\nfloat2 ray = raytrace(input.I, input.world.xyz, input.viewDir);\nfloat d    = step(ray.x,0.)*smoothstep(0.005,0.0,ray.y);\n\nfloat3 RimColor = float3(.5, .5, .5);\nfloat  RimPower = 3.;\nf.rgb          += edge * d * RimColor;\n\nfloat4 InnerGlowColor = float4(.9, .9, .9, .8);\nfloat2 uvGlow = (mtx - float2(.5,.5)) * (InnerGlowColor.a * 2.);\nuvGlow = uvGlow * uvGlow;\nuvGlow = uvGlow * uvGlow;\nf.rgb += falloff * lerp(float3(0.,0.,0.), InnerGlowColor.rgb, uvGlow.x + uvGlow.y);\n\nfloat  fresnel    = pow(saturate(dot(normalize(input.world.xyz-input.I), normalize(-input.N))),RimPower );\nfloat  hoverValue = HoverLight(HoverLightPosition, input.world.xyz, fresnel);\nfloat yoffset = input.color.r;\nfloat3 hoverColor = Iridance.Sample(Sampler, float2(hoverValue, yoffset)).rgb;  //use the R channel as the Y offset\n\nfloat gz = 1.0 - clamp((input.pos.z / input.pos.w) - cutoffDepth, 0., 1.);\n\nf.rgb += falloff * hoverColor;\nf.a *= transparency;\n\nmin16float4 outputColor = min16float4(f*gz);\nreturn outputColor;\n}\n\n</script>\n\n<script name=\"holoUI\" type=\"x-shader/x-vertex\">\ncbuffer ModelConstantBuffer : register(b0)\n{\n    float4x4 model;\n    float4x4 inverse;\n};\n\ncbuffer MaterialConstantBuffer : register(b1)\n{\n    float4   diffuseColor;\n};\n\n// A constant buffer that stores each set of view and projection matrices in column-major format.\ncbuffer ViewProjectionConstantBuffer : register(b2)\n{\n    float4x4 viewProjection[2];\n    float4x4 viewInverse;\n    float4x4 viewRotationInverse;\n};\n\n// Per-vertex data used as input to the vertex shader.\nstruct VertexShaderInput\n{\n    half4 pos     : POSITION;\n    half4 normal  : NORMAL;\n    half2 texcoord: TEXCOORD;\n    uint  instId  : SV_InstanceID;\n};\n\n// Per-vertex data passed to the geometry shader.\n// Note that the render target array index is set here in the vertex shader.\nstruct VertexShaderOutput\n{\n    half4 pos     : SV_POSITION;\n    half4 world: POSITION;\n    half4 color   : COLOR0;\n    half3 I       : NORMAL0;\n    half3 N       : TEXCOORD0;\n    half2 tx         :  TEXCOORD1;\n    half3 viewDir : TEXCOORD2;\n    uint  rtvId   : SV_RenderTargetArrayIndex; // SV_InstanceID % 2\n};\n\n// Simple shader to do vertex processing on the GPU.\nVertexShaderOutput main(VertexShaderInput input)\n{\n    VertexShaderOutput output;\n    half4 pos = half4(input.pos);\n\n    // Note which view this vertex has been sent to. Used for matrix lookup.\n    // Taking the modulo of the instance ID allows geometry instancing to be used\n    // along with stereo instanced drawing; in that case, two copies of each\n    // instance would be drawn, one for left and one for right.\n    int idx = input.instId % 2;\n\n    // Transform the vertex position into world space.\n    pos = mul(pos, model);\n    output.world = (half4)pos;\n\n    // I = v pos in view space\n    half4 eye = half4(0., 0., 0., 1.);\n    output.I = mul(eye, viewInverse).xyz; //(pos-mul(eye, viewInverse)).xyz;\n\n    // Correct for perspective and project the vertex position onto the screen.\n    pos = mul(pos, viewProjection[idx]);\n    output.pos = (half4)pos;\n\n    // N = normal in view space\n    output.N = normalize(mul(input.normal, inverse).xyz);\n\n    output.color = half4(diffuseColor);\n\n    output.tx = input.texcoord;\n    \n    output.viewDir = normalize(mul(half4(0, 0, 1, 1), viewRotationInverse).xyz);\n\n    // Set the render target array index.\n    output.rtvId = idx;\n\n    return output;\n}\n\n</script>\n<script name=\"holoUIni\" type=\"x-shader/x-fragment\">\n\nTexture2D Texture : register(t0);\nsampler Sampler   : register(s0);\n\ncbuffer ShaderConstantBuffer : register(b0)\n{\n    float4      highlightColor;\n    //----------------------------------- (16 byte boundary)\n    bool        useTexture;\n    bool        useLight;\n    float       transparency;\n    int         pad;\n};\n\ncbuffer RenderConstantBuffer : register(b1)\n{\n    //----------------------------------- (16 byte boundary)\n    float               tick;\n    float3              padding;\n    float4 hand;\n};\n\ncbuffer TMLDefinedConstants : register(b10)\n{\n    float cutoffDepth;\n};\n\n// Per-pixel color data passed through the pixel shader.\nstruct PixelShaderInput\n{\n    half4 pos       : SV_POSITION;\n    half4 world   : POSITION;\n    half4 color :    COLOR0;\n    half3 I            : NORMAL0;\n    half3 N          : TEXCOORD0;\n    half2 tx          : TEXCOORD1;\n    half3 viewDir : TEXCOORD2;\n};\n\nfloat HoverLight(float4 hoverLight, float3 worldPosition, float alpha)\n{\n    float ir = 1. - saturate(length((hoverLight.xyz - worldPosition) / hoverLight.w));\n    return ir * ir * alpha;\n}\n\nfloat2 raytrace(float3 x1, float3 x0, float3 I)\n{\n    float3 x2 = x1 + I;\n    float3 n21 = x2 - x1;\n    float3 n10 = x1 - x0;\n    float n1 = dot(n10, n21);\n    float l21 = length(n21);\n    float t = -n1 / (l21 * l21);\n    float l10 = length(n10);\n    float d = ((l10*l10)*(l21*l21) - (n1*n1)) / (l21*l21);\n    return float2(t, d);\n}\n\n\n// The pixel shader passes through the color data. The color data from\n// is interpolated and assigned to a pixel at the rasterization step.\nmin16float4 main(PixelShaderInput input) : SV_TARGET\n{\n    const float hlw = 0.05;\n    float      bigW = hlw * 5.;\n    float4 HoverLightPosition = float4 (hand.xyz,hlw);\n\n    float bigD       = saturate(length((HoverLightPosition.xyz - input.world.xyz) / bigW));\n    float brightness = 1. - bigD;\n    float falloff    = pow(brightness,3.);\n    float width      = 0.5;\n    float crad       = 0.;\n    float thickness  = 0.005;\n    float outer = width - crad;\n    float inner = outer - thickness;\n    float4 f    = Texture.Sample(Sampler, input.tx);\n    float3 edge;\n    float2 mtx = abs(input.tx) % 1;\n\nif (crad > 0.) {\n    float r1 = step(crad, length(max(abs(mtx - float2(width,width)) - inner, 0.)));\n    float r2 = step(length(max(abs(mtx - float2(width,width)) - outer, 0.)), crad);\n    float sq = r1 * r2;\n    edge     = float3 (sq,sq,sq);\n    f       += float4(edge,sq);\n}\nelse {\n    float2 r = abs(mtx - float2(width,width));\n    float  s = max(r.x,r.y);\n    float sq = step(inner, s) * step(s, outer);\n    edge     = float3 (sq,sq,sq);\n    f       += float4(.1*edge,sq);\n}\n\nfloat2 ray = raytrace(input.I, input.world.xyz, input.viewDir);\nfloat d    = step(ray.x,0.)*smoothstep(0.005,0.0,ray.y);\nfloat3 RimColor = float3(.5, .5, .5);\nfloat  RimPower = 3.;\nf.rgb          += edge * d * RimColor;\nf.a *= transparency;\n\nfloat gz = 1.0 - clamp((input.pos.z / input.pos.w) - cutoffDepth, 0., 1.);\nmin16float4 outputColor = min16float4(f*gz);\nreturn outputColor;\n}\n\n</script>\n\n<script name=\"holoUIni\" type=\"x-shader/x-vertex\">\ncbuffer ModelConstantBuffer : register(b0)\n{\n    float4x4 model;\n    float4x4 inverse;\n};\n\ncbuffer MaterialConstantBuffer : register(b1)\n{\n    float4   diffuseColor;\n};\n\n// A constant buffer that stores each set of view and projection matrices in column-major format.\ncbuffer ViewProjectionConstantBuffer : register(b2)\n{\n    float4x4 viewProjection[2];\n    float4x4 viewInverse;\n    float4x4 viewRotationInverse;\n};\n\n// Per-vertex data used as input to the vertex shader.\nstruct VertexShaderInput\n{\n    half4 pos     : POSITION;\n    half4 normal  : NORMAL;\n    half2 texcoord: TEXCOORD;\n    uint  instId  : SV_InstanceID;\n};\n\n// Per-vertex data passed to the geometry shader.\n// Note that the render target array index is set here in the vertex shader.\nstruct VertexShaderOutput\n{\n    half4 pos     : SV_POSITION;\n    half4 world: POSITION;\n    half4 color   : COLOR0;\n    half3 I       : NORMAL0;\n    half3 N       : TEXCOORD0;\n    half2 tx         :  TEXCOORD1;\n    half3 viewDir : TEXCOORD2;\n    uint  rtvId   : SV_RenderTargetArrayIndex; // SV_InstanceID % 2\n};\n\n// Simple shader to do vertex processing on the GPU.\nVertexShaderOutput main(VertexShaderInput input)\n{\n    VertexShaderOutput output;\n    half4 pos = half4(input.pos);\n\n    // Note which view this vertex has been sent to. Used for matrix lookup.\n    // Taking the modulo of the instance ID allows geometry instancing to be used\n    // along with stereo instanced drawing; in that case, two copies of each\n    // instance would be drawn, one for left and one for right.\n    int idx = input.instId % 2;\n\n    // Transform the vertex position into world space.\n    pos = mul(pos, model);\n    output.world = (half4)pos;\n\n    // I = v pos in view space\n    half4 eye = half4(0., 0., 0., 1.);\n    output.I = mul(eye, viewInverse).xyz; //(pos-mul(eye, viewInverse)).xyz;\n\n    // Correct for perspective and project the vertex position onto the screen.\n    pos = mul(pos, viewProjection[idx]);\n    output.pos = (half4)pos;\n\n    // N = normal in view space\n    output.N = normalize(mul(input.normal, inverse).xyz);\n\n    output.color = half4(diffuseColor);\n\n    output.tx = input.texcoord;\n    \n    output.viewDir = normalize(mul(half4(0, 0, 1, 1), viewRotationInverse).xyz);\n\n    // Set the render target array index.\n    output.rtvId = idx;\n\n    return output;\n}\n\n</script>"
+                  },
+                  "name": "twx-tml-text"
+                },
+                {
+                  "attributes": {
+                    "twx-widget": "",
+                    "widget-id": "tmlText-2",
+                    "widget-name": "tmlText-2",
+                    "text": "<script name=\"affine\" type=\"x-shader/x-vertex\">\n\t\t\t  attribute vec3 vertexPosition; \n\t\t\t  attribute vec2 vertexTexCoord;\n\t\t\t\n\t\t\t  varying vec2 texcoord;\n\n\t\t\t  uniform mat4 modelViewProjectionMatrix;\n\t\t\t  \n\t\t\t  void main() { \n\t\t\t    vec4 vp     = vec4(vertexPosition, 1.0);\n\t\t\t\tgl_Position=vec4(modelViewProjectionMatrix * vp);\n\t\t\t\ttexcoord = vertexTexCoord;\n                         }\n</script>\n<script name=\"affine\" type=\"x-shader/x-fragment\">\n  precision mediump float;\n  uniform sampler2D texSampler2D;\n  uniform float aspectX;\n  uniform float aspectY;\n  uniform float tick;\n  varying vec2 texcoord;\n\n\nvoid main()\n{  \n        vec2 xh = vec2(.5,.5);\n        vec2 xf = vec2(aspectX,aspectY);\n\tvec2 uv = xh + ((texcoord - xh) * xf);\n        vec4 img = texture2D(texSampler2D, uv);\n\n\tgl_FragColor = img;\n\n}\n</script>"
+                  },
+                  "name": "twx-tml-text"
+                },
+                {
+                  "attributes": {
+                    "twx-widget": "",
+                    "widget-id": "startButton",
+                    "widget-name": "startButton",
+                    "click-expression": "go()",
+                    "text": "start",
+                    "x": "0.0000",
+                    "y": "0.0653",
+                    "z": "0.0152",
+                    "rx": "0.00",
+                    "ry": "0.00",
+                    "rz": "0.00"
+                  },
+                  "name": "twx-dt-3dbutton"
+                },
+                {
+                  "attributes": {
+                    "twx-widget": "",
+                    "widget-id": "label",
+                    "state-format-value": "text",
+                    "widget-name": "label",
+                    "text": "hello",
+                    "scale": "1.0000",
+                    "x": "0.0082",
+                    "y": "0.1570",
+                    "z": "0.0000",
+                    "rx": "0.00",
+                    "ry": "0.00",
+                    "rz": "0.00"
+                  },
+                  "name": "twx-dt-label"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "twx-fragment-parameters"
+    },
+    {
+      "name": "twx-view-data"
+    }
+  ],
+  "name": "twx-view"
+}

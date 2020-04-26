@@ -1,0 +1,151 @@
+[2019-10-08T03:46:34.992Z] debug: [twx-studio:upgrade:canvastest] Begin upgrade of project
+[2019-10-08T03:46:34.993Z] info: [twx-studio:upgrade:canvastest] Upgrading project
+[2019-10-08T03:46:35.045Z] debug: [twx-studio:upgrade:canvastest] Make sure there are not any stale files lying around
+[2019-10-08T03:46:35.048Z] debug: [twx-studio:upgrade:canvastest] Create .gitignore for project dir
+[2019-10-08T03:46:35.049Z] debug: [twx-studio:upgrade:canvastest] Copying /src/**/* to project, overwrite=false
+[2019-10-08T03:46:35.051Z] debug: [twx-studio:upgrade:canvastest] Copying /**/* to project, skip /src/**/*,  overwrite=true
+[2019-10-08T03:46:35.300Z] debug: [twx-studio:upgrade:canvastest] Copy of project files complete
+[2019-10-08T03:46:35.300Z] debug: [twx-studio:upgrade:canvastest] Updating version to 
+[2019-10-08T03:46:35.300Z] debug: [twx-studio:upgrade:canvastest] Copying project specific default resources.
+[2019-10-08T03:46:35.388Z] debug: [twx-studio:upgrade:canvastest] onupgrade sucessful, now build the project
+[2019-10-08T03:46:35.388Z] debug: [twx-studio:upgrade:canvastest] BEGIN buildApp
+[2019-10-08T03:46:35.388Z] debug: [twx-studio:upgrade:canvastest] write settings
+[2019-10-08T03:46:35.389Z] debug: [twx-studio:upgrade:canvastest] copy runtime extensions
+[2019-10-08T03:46:35.927Z] debug: [twx-studio:upgrade:canvastest] packageThemeSet
+[2019-10-08T03:46:37.558Z] debug: [twx-studio:upgrade:canvastest] onBuild
+[2019-10-08T03:46:37.559Z] info: [twx-studio:upgrade:canvastest] Building ves-ar-extension app:
+[2019-10-08T03:46:37.712Z] debug: [twx-studio:upgrade:canvastest] pathDir
+[2019-10-08T03:46:37.713Z] debug: [twx-studio:upgrade:canvastest] scaffoldDir
+[2019-10-08T03:46:37.713Z] debug: [twx-studio:upgrade:canvastest] copySrc
+[2019-10-08T03:46:38.036Z] debug: [twx-studio:upgrade:canvastest] buildApp
+[2019-10-08T03:46:38.463Z] debug: [twx-studio:upgrade:canvastest] END buildApp
+[2019-10-08T03:46:38.463Z] debug: [twx-studio:upgrade:canvastest] Build succeeded.
+[2019-10-14T21:40:51.123Z] debug: [twx-studio:upgrade:canvastest] Begin upgrade of project
+[2019-10-14T21:40:51.133Z] info: [twx-studio:upgrade:canvastest] Upgrading project
+[2019-10-14T21:40:51.142Z] debug: [twx-studio:upgrade:canvastest] Make sure there are not any stale files lying around
+[2019-10-14T21:40:51.142Z] debug: [twx-studio:upgrade:canvastest] Removing 
+[2019-10-14T21:40:51.149Z] debug: [twx-studio:upgrade:canvastest] Removing 
+[2019-10-14T21:40:51.267Z] debug: [twx-studio:upgrade:canvastest] Removing 
+[2019-10-14T21:40:51.315Z] debug: [twx-studio:upgrade:canvastest] Removing 
+[2019-10-14T21:40:51.342Z] debug: [twx-studio:upgrade:canvastest] Removing 
+[2019-10-14T21:40:51.348Z] debug: [twx-studio:upgrade:canvastest] Copying /src/**/* to project, overwrite=false
+[2019-10-14T21:40:51.359Z] debug: [twx-studio:upgrade:canvastest] Copying /**/* to project, skip /src/**/*,  overwrite=true
+[2019-10-14T21:40:51.527Z] debug: [twx-studio:upgrade:canvastest] Copy of project files complete
+[2019-10-14T21:40:51.527Z] debug: [twx-studio:upgrade:canvastest] Updating version to 
+[2019-10-14T21:40:51.527Z] debug: [twx-studio:upgrade:canvastest] Copying project specific default resources.
+[2019-10-14T21:40:51.651Z] debug: [twx-studio:upgrade:canvastest] onupgrade sucessful, now build the project
+[2019-10-14T21:40:51.651Z] debug: [twx-studio:upgrade:canvastest] BEGIN buildApp
+[2019-10-14T21:40:51.651Z] debug: [twx-studio:upgrade:canvastest] write settings
+[2019-10-14T21:40:51.652Z] debug: [twx-studio:upgrade:canvastest] copy runtime extensions
+[2019-10-14T21:40:52.163Z] debug: [twx-studio:upgrade:canvastest] packageThemeSet
+[2019-10-14T21:40:54.019Z] debug: [twx-studio:upgrade:canvastest] onBuild
+[2019-10-14T21:40:54.019Z] info: [twx-studio:upgrade:canvastest] Building ves-ar-extension app:
+[2019-10-14T21:40:54.058Z] debug: [twx-studio:upgrade:canvastest] pathDir
+[2019-10-14T21:40:54.058Z] debug: [twx-studio:upgrade:canvastest] scaffoldDir
+[2019-10-14T21:40:54.058Z] debug: [twx-studio:upgrade:canvastest] copySrc
+[2019-10-14T21:40:54.473Z] debug: [twx-studio:upgrade:canvastest] buildApp
+[2019-10-14T21:40:54.807Z] debug: [twx-studio:upgrade:canvastest] END buildApp
+[2019-10-14T21:40:54.825Z] debug: [twx-studio:upgrade:canvastest] Build succeeded.
+[2019-10-27T11:55:07.901Z] debug: [twx-studio:upgrade:canvastest] Begin upgrade of project
+[2019-10-27T11:55:07.903Z] info: [twx-studio:upgrade:canvastest] Upgrading project
+[2019-10-27T11:55:07.914Z] debug: [twx-studio:upgrade:canvastest] Make sure there are not any stale files lying around
+[2019-10-27T11:55:07.915Z] debug: [twx-studio:upgrade:canvastest] Removing 
+[2019-10-27T11:55:07.929Z] debug: [twx-studio:upgrade:canvastest] Removing 
+[2019-10-27T11:55:08.402Z] debug: [twx-studio:upgrade:canvastest] Removing 
+[2019-10-27T11:55:08.532Z] debug: [twx-studio:upgrade:canvastest] Removing 
+[2019-10-27T11:55:08.595Z] debug: [twx-studio:upgrade:canvastest] Removing 
+[2019-10-27T11:55:08.611Z] debug: [twx-studio:upgrade:canvastest] Copying /src/**/* to project, overwrite=false
+[2019-10-27T11:55:08.621Z] debug: [twx-studio:upgrade:canvastest] Copying /**/* to project, skip /src/**/*,  overwrite=true
+[2019-10-27T11:55:08.987Z] debug: [twx-studio:upgrade:canvastest] Copy of project files complete
+[2019-10-27T11:55:08.987Z] debug: [twx-studio:upgrade:canvastest] Updating version to 
+[2019-10-27T11:55:08.987Z] debug: [twx-studio:upgrade:canvastest] Copying project specific default resources.
+[2019-10-27T11:55:09.170Z] debug: [twx-studio:upgrade:canvastest] onupgrade sucessful, now build the project
+[2019-10-27T11:55:09.170Z] debug: [twx-studio:upgrade:canvastest] BEGIN buildApp
+[2019-10-27T11:55:09.170Z] debug: [twx-studio:upgrade:canvastest] write settings
+[2019-10-27T11:55:09.171Z] debug: [twx-studio:upgrade:canvastest] copy runtime extensions
+[2019-10-27T11:55:10.180Z] debug: [twx-studio:upgrade:canvastest] packageThemeSet
+[2019-10-27T11:55:12.998Z] debug: [twx-studio:upgrade:canvastest] onBuild
+[2019-10-27T11:55:12.999Z] info: [twx-studio:upgrade:canvastest] Building ves-ar-extension app:
+[2019-10-27T11:55:13.061Z] debug: [twx-studio:upgrade:canvastest] pathDir
+[2019-10-27T11:55:13.061Z] debug: [twx-studio:upgrade:canvastest] scaffoldDir
+[2019-10-27T11:55:13.061Z] debug: [twx-studio:upgrade:canvastest] copySrc
+[2019-10-27T11:55:13.742Z] debug: [twx-studio:upgrade:canvastest] buildApp
+[2019-10-27T11:55:14.731Z] debug: [twx-studio:upgrade:canvastest] END buildApp
+[2019-10-27T11:55:14.731Z] debug: [twx-studio:upgrade:canvastest] Build succeeded.
+[2019-12-06T23:17:20.741Z] debug: [twx-studio:upgrade:canvastest] Begin upgrade of project
+[2019-12-06T23:17:20.741Z] info: [twx-studio:upgrade:canvastest] Upgrading project
+[2019-12-06T23:17:20.745Z] debug: [twx-studio:upgrade:canvastest] Make sure there are not any stale files lying around
+[2019-12-06T23:17:20.745Z] debug: [twx-studio:upgrade:canvastest] Removing 
+[2019-12-06T23:17:20.754Z] debug: [twx-studio:upgrade:canvastest] Removing 
+[2019-12-06T23:17:20.986Z] debug: [twx-studio:upgrade:canvastest] Removing 
+[2019-12-06T23:17:21.056Z] debug: [twx-studio:upgrade:canvastest] Removing 
+[2019-12-06T23:17:21.098Z] debug: [twx-studio:upgrade:canvastest] Removing 
+[2019-12-06T23:17:21.108Z] debug: [twx-studio:upgrade:canvastest] Copying /src/**/* to project, overwrite=false
+[2019-12-06T23:17:21.111Z] debug: [twx-studio:upgrade:canvastest] Copying /**/* to project, skip /src/**/*,  overwrite=true
+[2019-12-06T23:17:21.231Z] debug: [twx-studio:upgrade:canvastest] Copy of project files complete
+[2019-12-06T23:17:21.231Z] debug: [twx-studio:upgrade:canvastest] Updating version to 
+[2019-12-06T23:17:21.231Z] debug: [twx-studio:upgrade:canvastest] Copying project specific default resources.
+[2019-12-06T23:17:21.323Z] debug: [twx-studio:upgrade:canvastest] onupgrade sucessful, now build the project
+[2019-12-06T23:17:21.323Z] debug: [twx-studio:upgrade:canvastest] BEGIN buildApp
+[2019-12-06T23:17:21.324Z] debug: [twx-studio:upgrade:canvastest] write settings
+[2019-12-06T23:17:21.324Z] debug: [twx-studio:upgrade:canvastest] copy runtime extensions
+[2019-12-06T23:17:21.781Z] debug: [twx-studio:upgrade:canvastest] packageThemeSet
+[2019-12-06T23:17:22.940Z] debug: [twx-studio:upgrade:canvastest] onBuild
+[2019-12-06T23:17:22.940Z] info: [twx-studio:upgrade:canvastest] Building ves-ar-extension app:
+[2019-12-06T23:17:22.950Z] debug: [twx-studio:upgrade:canvastest] pathDir
+[2019-12-06T23:17:22.950Z] debug: [twx-studio:upgrade:canvastest] scaffoldDir
+[2019-12-06T23:17:22.951Z] debug: [twx-studio:upgrade:canvastest] copySrc
+[2019-12-06T23:17:23.270Z] debug: [twx-studio:upgrade:canvastest] buildApp
+[2019-12-06T23:17:23.610Z] debug: [twx-studio:upgrade:canvastest] END buildApp
+[2019-12-06T23:17:23.610Z] debug: [twx-studio:upgrade:canvastest] Build succeeded.
+[2020-04-23T12:49:05.230Z] debug: [twx-studio:upgrade:canvastest] Begin upgrade of project
+[2020-04-23T12:49:05.231Z] info: [twx-studio:upgrade:canvastest] Upgrading project
+[2020-04-23T12:49:05.239Z] debug: [twx-studio:upgrade:canvastest] Adding missing twx-app-event to Data.json: stopscan
+[2020-04-23T12:49:05.240Z] debug: [twx-studio:upgrade:canvastest] Make sure there are not any stale files lying around
+[2020-04-23T12:49:05.240Z] debug: [twx-studio:upgrade:canvastest] Removing 
+[2020-04-23T12:49:05.250Z] debug: [twx-studio:upgrade:canvastest] Removing 
+[2020-04-23T12:49:05.528Z] debug: [twx-studio:upgrade:canvastest] Removing 
+[2020-04-23T12:49:05.608Z] debug: [twx-studio:upgrade:canvastest] Removing 
+[2020-04-23T12:49:05.653Z] debug: [twx-studio:upgrade:canvastest] Removing 
+[2020-04-23T12:49:05.663Z] debug: [twx-studio:upgrade:canvastest] Copying /src/**/* to project, overwrite=false
+[2020-04-23T12:49:05.664Z] debug: [twx-studio:upgrade:canvastest] Copying /**/* to project, skip /src/**/*,  overwrite=true
+[2020-04-23T12:49:05.767Z] debug: [twx-studio:upgrade:canvastest] Copy of project files complete
+[2020-04-23T12:49:05.767Z] debug: [twx-studio:upgrade:canvastest] Updating version to 
+[2020-04-23T12:49:05.767Z] debug: [twx-studio:upgrade:canvastest] Copying project specific default resources.
+[2020-04-23T12:49:05.860Z] debug: [twx-studio:upgrade:canvastest] onupgrade sucessful, now build the project
+[2020-04-23T12:49:05.860Z] debug: [twx-studio:upgrade:canvastest] BEGIN buildApp
+[2020-04-23T12:49:05.860Z] debug: [twx-studio:upgrade:canvastest] write settings
+[2020-04-23T12:49:05.861Z] debug: [twx-studio:upgrade:canvastest] copy runtime extensions
+[2020-04-23T12:49:06.552Z] debug: [twx-studio:upgrade:canvastest] packageThemeSet
+[2020-04-23T12:49:08.123Z] debug: [twx-studio:upgrade:canvastest] onBuild
+[2020-04-23T12:49:08.124Z] info: [twx-studio:upgrade:canvastest] Building ves-ar-extension app:
+[2020-04-23T12:49:08.142Z] debug: [twx-studio:upgrade:canvastest] pathDir
+[2020-04-23T12:49:08.142Z] debug: [twx-studio:upgrade:canvastest] scaffoldDir
+[2020-04-23T12:49:08.142Z] debug: [twx-studio:upgrade:canvastest] copySrc
+[2020-04-23T12:49:08.396Z] debug: [twx-studio:upgrade:canvastest] buildApp
+[2020-04-23T12:49:08.611Z] debug: [twx-studio:upgrade:canvastest] END buildApp
+[2020-04-23T12:49:08.612Z] debug: [twx-studio:upgrade:canvastest] Build succeeded.
+
+2020-04-26T13:50:09.033Z: Project "canvastest" saved as new project "tether-test"[2020-04-26T13:50:10.769Z] debug: [twx-studio:upgrade:tether-test] Begin upgrade of project
+[2020-04-26T13:50:10.774Z] info: [twx-studio:upgrade:tether-test] Upgrading project
+[2020-04-26T13:50:10.827Z] debug: [twx-studio:upgrade:tether-test] Make sure there are not any stale files lying around
+[2020-04-26T13:50:10.828Z] debug: [twx-studio:upgrade:tether-test] Removing 
+[2020-04-26T13:50:10.858Z] debug: [twx-studio:upgrade:tether-test] Create .gitignore for project dir
+[2020-04-26T13:50:10.859Z] debug: [twx-studio:upgrade:tether-test] Copying /src/**/* to project, overwrite=false
+[2020-04-26T13:50:10.860Z] debug: [twx-studio:upgrade:tether-test] Copying /**/* to project, skip /src/**/*,  overwrite=true
+[2020-04-26T13:50:10.967Z] debug: [twx-studio:upgrade:tether-test] Copy of project files complete
+[2020-04-26T13:50:10.967Z] debug: [twx-studio:upgrade:tether-test] Updating version to 
+[2020-04-26T13:50:10.967Z] debug: [twx-studio:upgrade:tether-test] Copying project specific default resources.
+[2020-04-26T13:50:11.057Z] debug: [twx-studio:upgrade:tether-test] onupgrade sucessful, now build the project
+[2020-04-26T13:50:11.057Z] debug: [twx-studio:upgrade:tether-test] BEGIN buildApp
+[2020-04-26T13:50:11.057Z] debug: [twx-studio:upgrade:tether-test] write settings
+[2020-04-26T13:50:11.057Z] debug: [twx-studio:upgrade:tether-test] copy runtime extensions
+[2020-04-26T13:50:11.298Z] debug: [twx-studio:upgrade:tether-test] packageThemeSet
+[2020-04-26T13:50:12.411Z] debug: [twx-studio:upgrade:tether-test] onBuild
+[2020-04-26T13:50:12.411Z] info: [twx-studio:upgrade:tether-test] Building ves-ar-extension app:
+[2020-04-26T13:50:12.431Z] debug: [twx-studio:upgrade:tether-test] pathDir
+[2020-04-26T13:50:12.431Z] debug: [twx-studio:upgrade:tether-test] scaffoldDir
+[2020-04-26T13:50:12.431Z] debug: [twx-studio:upgrade:tether-test] copySrc
+[2020-04-26T13:50:12.646Z] debug: [twx-studio:upgrade:tether-test] buildApp
+[2020-04-26T13:50:12.912Z] debug: [twx-studio:upgrade:tether-test] END buildApp
+[2020-04-26T13:50:12.912Z] debug: [twx-studio:upgrade:tether-test] Build succeeded.
