@@ -13,17 +13,84 @@ function tetheredHelper(renderer, interval, panels, offset) {
     
   this.lerping    = undefined;
   
+  this.tethering  = true;  // lets default to working unless we are told otherwise
+  
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // based on the head location (arg) let's determine if we need to move the
   // tracked items ('panels') - it we do need to move them, kick off a small
   // animation to move the items to the final resting location
-  this.headTether = function(arg) { 
+  this.headTether = function(arg) {
+    if (this.tethering === true) this._headTether(arg);      
+  }
+  
+  ////////////////////////////////////////////////////////////////////
+  // change the panels we are managing
+  this.setPanels = function(panels,callback) {
+      
+    //kill off and hide any existing panels that we have under management
+    if (this.lerping != undefined) {
+      this,interval.cancel(this.lerping);
+      this.lerping = undefined;
+      
+      // do we 'hide' the old ones
+      if (callback != undefined) callback(this.panels); // let the caller do it
+      else {
+        for (var p=0;p<this.panels.length;p++) {
+          var panel = this.panels[0];
+          if (panel.buttons != undefined) for (var b=0;b<panel.buttons.length;b++) {
+            var button = panel.buttons[b];
+            this.renderer.setProperties (button.name+'_button',{hidden:true});
+            this.renderer.setProperties (button.name+'_backer',{hidden:true});
+          }
+          this.renderer.setProperties (panel.name,{hidden:true});
+        }
+      }
+    }
+    
+    //and install new ones
+    this.panels = panels;
+    
+    return this;
+  }
+  
+  ////////////////////////////////////////////////////////////////////
+  // set the offset at whch the panel starts moving
+  this.Offset = function(offset) {
+    this.offset = offset;
+    return this;
+  }
+  
+  ////////////////////////////////////////////////////////////////////
+  //
+  this.Start = function(panels) {
+    this.tethering = true;
+    if (panels!=undefined)
+      this.setPanels(panels);  // replace any panels  
+      
+    return this;  
+  }
+  this.Pause = function() {
+    this.tethering = false;
+    return this;  
+  }
+  this.Stop = function() {
+    this.tethering = false;
+    return this.setPanels(undefined);  // remove any panels  
+  }
+
+  
+  //////////////////////////////////////////////////////////////////
+  // (private) 
+  // based on the head location (arg) let's determine if we need to move the
+  // tracked items ('panels') - it we do need to move them, kick off a small
+  // animation to move the items to the final resting location
+  this._headTether = function(arg) { 
   
     // arg containts position, gaze and up
     // lets get the position (this is the xyz position of the head RELATIVE to the tracking target)
   
-    var position = new Vector4().Set3a(arg.position);	//Position as a vector
-    var gaze     = new Vector4().Set3 (-arg.gaze[0],-arg.gaze[1],-arg.gaze[2]);  
+    var position = new Vector4().Set3a(arg.position);	   //Position as a vector
+    var gaze     = new Vector4().Set3a(arg.gaze).Negate();
 
     // lets get the gaze (vector) and the up (vector)
     var up    = new Vector4().Set3a(arg.up); 
@@ -57,12 +124,13 @@ function tetheredHelper(renderer, interval, panels, offset) {
       // first time, just position the item at the destination point
       if (panel.ipos === undefined) {
         var lerp = panel.targetPos;
-        this.renderer.setTranslation(panel.name,     lerp.X(),     lerp.Y(),     lerp.Z());
-        this.renderer.setRotation   (panel.name, panel.es.X(), panel.es.Y(), panel.es.Z());
+        //this.renderer.setTranslation(panel.name,     lerp.X(),     lerp.Y(),     lerp.Z());
+        //this.renderer.setRotation   (panel.name, panel.es.X(), panel.es.Y(), panel.es.Z());
         panel.ipos = lerp;
       }
   
-      // otherwise, only move it IF it is > 0.5m away from where it was last placed
+      // otherwise, only move it IF it is greater than (parameter) distance 
+      // away from where it was last placed
       // note also : we only try this IF it is not already moving to the new position.
       else if (this.lerping === undefined && 
                panel.ipos.Sub(panel.targetPos).Length() > this.offset) {
@@ -98,34 +166,8 @@ function tetheredHelper(renderer, interval, panels, offset) {
     }
   }
   
-  ////////////////////////////////////////////////////////////////////
-  // change the panels we are managing
-  this.setPanels = function(panels,callback) {
-      
-    //kill off and hide any existing panels that we have under management
-    if (this.lerping != undefined) {
-      this,interval.cancel(this.lerping);
-      this.lerping = undefined;
-      
-      // do we 'hide' the old ones
-      if (callback != undefined) callback(this.panels); // let the caller do it
-      else {
-        for (var p=0;p<this.panels.length;p++) {
-          var panel = this.panels[0];
-          if (panel.buttons != undefined) for (var b=0;b<panel.buttons.length;b++) {
-            var button = panel.buttons[b];
-            this.renderer.setProperties (button.name+'_button',{hidden:true});
-            this.renderer.setProperties (button.name+'_backer',{hidden:true});
-          }
-          this.renderer.setProperties (panel.name,{hidden:true});
-        }
-      }
-    }
-    
-    //and install new ones
-    this.panels = panels;
-  }
 
+  
   //////////////////////////////////////////////////////////////////
   // (private) handles the animated tehtered behaviour, moving the
   // panels to the new target
@@ -431,6 +473,12 @@ function Vector4() {
     this.v[0] = this.v[0] / rad;
     this.v[1] = this.v[1] / rad;
     this.v[2] = this.v[2] / rad;
+    return this;
+  }
+  this.Negate = function () {
+    this.v[0] = - this.v[0];
+    this.v[1] = - this.v[1];
+    this.v[2] = - this.v[2];
     return this;
   }
   this.DotP = function (v2) {

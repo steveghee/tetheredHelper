@@ -38,7 +38,9 @@ helperscript.onload = function(){
                                          onMoveEnded : function(t,p) { $scope.view.wdg[p.name].text='stopped';}
                                         }
                                        ]
-                                      );
+                                      )
+                        .Offset(0.6)	// set the initial trigger distance to be 60cm (default is 50cm)
+                        .Pause();      // and pause the effect
  
   //
   // when the user moves, keep track of him/her
@@ -49,14 +51,18 @@ helperscript.onload = function(){
     // you may already have this feature for other aspect of your application, so here you only 
     // only need to add one line to have the helper draw what it needs to draw
     //
-    if ($scope.tethering) $scope.tethered.headTether(arg);
+    $scope.tethered.headTether(arg);
   });
 
 }
 
 
 $scope.go = function() {
+  
   $scope.tethering = !$scope.tethering;
+  if ($scope.tethering) $scope.tethered.Start();
+  else                  $scope.tethered.Pause();
+  
   $scope.view.wdg.startButton.text = $scope.tethering?"stop":"start";
 }
 
